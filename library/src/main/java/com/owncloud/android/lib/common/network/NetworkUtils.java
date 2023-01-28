@@ -48,6 +48,7 @@ import java.security.cert.CertificateException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509KeyManager;
 
 public class NetworkUtils {
     
@@ -117,9 +118,10 @@ public class NetworkUtils {
             KeyStore trustStore = getKnownServersStore(context);
             AdvancedX509TrustManager trustMgr = new AdvancedX509TrustManager(trustStore);
             TrustManager[] tms = new TrustManager[]{trustMgr};
+            X509KeyManager[] kms = new X509KeyManager[]{ new AdvancedX509KeyManager(context) };
 
             SSLContext sslContext = getSSLContext();
-            sslContext.init(null, tms, null);
+            sslContext.init(kms, tms, null);
 
             mHostnameVerifier = new BrowserCompatHostnameVerifier();
             mAdvancedSslSocketFactory = new AdvancedSslSocketFactory(sslContext, trustMgr, mHostnameVerifier);

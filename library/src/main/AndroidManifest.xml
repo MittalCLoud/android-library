@@ -43,7 +43,11 @@
 
     <application
         android:usesCleartextTraffic="true"
-        tools:targetApi="m" />
+        tools:targetApi="m">
 
+        <activity
+            android:name=".common.network.SelectClientCertificateHelperActivity"
+            android:exported="false" />
+    </application>
 </manifest>
 
