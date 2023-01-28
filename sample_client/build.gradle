@@ -1,0 +1,52 @@
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.0'
+        classpath 'com.hiya:jacoco-android:0.2'
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
+        classpath "commons-httpclient:commons-httpclient:3.1@jar" // remove after entire switch to lib v2
+        classpath 'com.karumi:shot:5.14.1'
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+        classpath "org.jacoco:org.jacoco.report:$jacoco_version"
+        classpath "org.jacoco:org.jacoco.agent:$jacoco_version"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:11.0.0"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.hiya.jacoco-android'
+
+repositories {
+    google()
+}
+
+android {
+    compileSdkVersion 33
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation project(path: ':library')
+    implementation "commons-httpclient:commons-httpclient:3.1@jar"
+    // remove after entire switch to lib v2
+    implementation "org.jacoco:org.jacoco.agent:$jacoco_version:runtime"
+    implementation 'androidx.test:monitor:1.6.1'
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:monitor:1.6.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+}

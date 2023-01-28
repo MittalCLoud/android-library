@@ -1,0 +1,17 @@
+name: "Validate Gradle Wrapper"
+on:
+    pull_request:
+        branches: [ master, stable-* ]
+    push:
+        branches: [ master, stable-* ]
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+    validation:
+        name: "Validation"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: gradle/wrapper-validation-action@v1
