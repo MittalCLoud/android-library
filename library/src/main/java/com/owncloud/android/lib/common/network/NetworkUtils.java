@@ -46,6 +46,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509KeyManager;
@@ -118,7 +119,7 @@ public class NetworkUtils {
             KeyStore trustStore = getKnownServersStore(context);
             AdvancedX509TrustManager trustMgr = new AdvancedX509TrustManager(trustStore);
             TrustManager[] tms = new TrustManager[]{trustMgr};
-            X509KeyManager[] kms = new X509KeyManager[]{ new AdvancedX509KeyManager(context) };
+            KeyManager[] kms =  new MittalX509KeyManager(context).mittalKeyManager();
 
             SSLContext sslContext = getSSLContext();
             sslContext.init(kms, tms, null);

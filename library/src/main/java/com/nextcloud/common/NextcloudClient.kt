@@ -48,7 +48,7 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLSession
 import javax.net.ssl.TrustManager
-import com.owncloud.android.lib.common.network.AdvancedX509KeyManager
+import com.owncloud.android.lib.common.network.MittalX509KeyManager
 class NextcloudClient private constructor(
     val delegate: NextcloudUriDelegate,
     var credentials: String,
@@ -75,10 +75,10 @@ class NextcloudClient private constructor(
 
         private fun createDefaultClient(context: Context): OkHttpClient {
             val trustManager = AdvancedX509TrustManager(NetworkUtils.getKnownServersStore(context))
-            val keyManager = AdvancedX509KeyManager(context)
+            val keyManager = MittalX509KeyManager(context).mittalKeyManager()
             val sslContext = NetworkUtils.getSSLContext()
 
-            sslContext.init(arrayOf(keyManager), arrayOf<TrustManager>(trustManager), null)
+            sslContext.init(keyManager, arrayOf<TrustManager>(trustManager), null)
             val sslSocketFactory = sslContext.socketFactory
 
             return OkHttpClient.Builder()
